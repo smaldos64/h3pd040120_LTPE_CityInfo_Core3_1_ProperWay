@@ -18,7 +18,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
 
         void AddCityLanguage(CityLanguage cityLanguage);
 
-        //bool Save();
         #endregion
     }
 }

@@ -24,7 +24,12 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
             return this.RepositoryContext.Set<T>().AsNoTracking();
         }
 
-        public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
+        public virtual T FindOne(int id)
+        {
+            return (this.RepositoryContext.Set<T>().Find(id));
+        }
+
+        public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
             //ParameterExpression s = Expression.Parameter(typeof(T));
             return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();

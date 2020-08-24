@@ -43,20 +43,33 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         [HttpGet]
         public IActionResult GetCities(bool includeRelations = false)
         {
-            var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
-                //_cityInfoRepository.GetCitiesAdvanced();
-
             if (false == includeRelations)
             {
+                var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
                 IEnumerable<CityWithoutPointsOfInterestDto> CityDtos = _mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
                 return Ok(CityDtos);
             }
             else
             {
+                var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindByCondition(c => c.Id == c.Id);
+                //Include(c => c.PointsOfInterest).
+                //Include(c => c.CityLanguages).
+                //ThenInclude(l => l.Language));
                 IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
                 return Ok(CityDtos);
-                //return Ok(_mapper.Map<IEnumerable<CityDto>>(cityEntities));
             }
+                
+
+            //if (false == includeRelations)
+            //{
+            //    IEnumerable<CityWithoutPointsOfInterestDto> CityDtos = _mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+            //    return Ok(CityDtos);
+            //}
+            //else
+            //{
+            //    IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
+            //    return Ok(CityDtos);
+            //}
         }
 
         // POST: api/City

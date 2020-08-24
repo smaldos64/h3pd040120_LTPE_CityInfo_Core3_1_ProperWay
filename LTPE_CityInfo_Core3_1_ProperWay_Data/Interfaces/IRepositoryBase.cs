@@ -9,6 +9,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
     public interface IRepositoryBase<T>
     {
         IQueryable<T> FindAll();
+        T FindOne(int id);
         IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression);
         //List<T> FindByCondition(Expression<Func<T, bool>> expression);
         void Create(T entity);

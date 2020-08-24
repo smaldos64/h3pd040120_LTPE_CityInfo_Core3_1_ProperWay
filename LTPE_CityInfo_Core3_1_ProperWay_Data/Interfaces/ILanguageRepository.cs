@@ -21,8 +21,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
 
         void DeleteLanguage(Language language);
 
-        //bool Save();
-
         bool LanguageExists(int LanguageID);
     }
 }
