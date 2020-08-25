@@ -26,7 +26,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         {
             if (false == IncludeRelations)
             {
-
                 var collection = (base.FindAll());
                 collection = collection.OrderByDescending(c => c.CityLanguages.Count).ThenBy(c => c.Name);
                 return (collection);
@@ -40,6 +39,25 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
 
                 collection = collection.OrderByDescending(c => c.CityLanguages.Count).ThenBy(c => c.Name);
                 return (collection);
+            }
+        }
+
+        public City GetCity(int CityId, bool IncludeRelations = false)
+        {
+            if (false == IncludeRelations)
+            {
+                var City_Object = base.FindOne(CityId);
+                return (City_Object);
+            }
+            else
+            {
+                var City_Object = base.FindAll().Where(c => c.Id == CityId).
+                Include(c => c.PointsOfInterest).
+                Include(c => c.CityLanguages).
+                ThenInclude(l => l.Language).
+                FirstOrDefault();
+
+                return (City_Object);
             }
         }
     }
