@@ -28,8 +28,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         {
             this._repoWrapper = repoWrapper;
             this._mapper = mapper;
-
-            //this._repoWrapper.
         }
 
         // GET: api/City
