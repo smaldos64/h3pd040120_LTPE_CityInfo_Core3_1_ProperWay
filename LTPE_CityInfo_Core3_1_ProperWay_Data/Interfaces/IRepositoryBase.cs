@@ -16,5 +16,10 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
         void Update(T entity);
         void Delete(T entity);
         void Save();
+
+        // LTPE funktionalitet adderet herunder !!!
+        void EnableLazyLoading();
+
+        void DisableLazyLoading();
     }
 }

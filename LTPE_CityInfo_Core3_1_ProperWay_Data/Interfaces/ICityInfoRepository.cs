@@ -11,5 +11,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
     public interface ICityInfoRepository : IRepositoryBase<City>
     {
         public IEnumerable<City> GetAllCities(bool IncludeRelations = false);
+        //public IEnumerable<City> GetAllCities();
     }
 }

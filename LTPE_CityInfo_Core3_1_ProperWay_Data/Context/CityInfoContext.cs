@@ -1,4 +1,4 @@
-﻿#define USE_LAZY_LOADING
+﻿//#define USE_LAZY_LOADING
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -121,7 +121,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Context
         {
             string connectionString = this._configuration.GetConnectionString("cityInfoDBConnectionString");
 
-#if USE_LAZY_LOADING
+#if ENABLED_FOR_LAZY_LOADING_USAGE
             optionsBuilder
                 .UseLazyLoadingProxies()
                 .UseSqlServer(connectionString);

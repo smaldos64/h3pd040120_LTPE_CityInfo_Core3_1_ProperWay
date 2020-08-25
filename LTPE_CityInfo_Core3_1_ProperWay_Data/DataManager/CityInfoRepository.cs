@@ -19,6 +19,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
             {
                 throw new ArgumentNullException(nameof(context));
             }
+            this.RepositoryContext.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         public IEnumerable<City> GetAllCities(bool IncludeRelations = false)
@@ -41,6 +42,13 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
                 return (collection);
             }
         }
+
+        //public IEnumerable<City> GetAllCities()
+        //{
+        //    var collection = (base.FindAll());
+        //    collection = collection.OrderByDescending(c => c.CityLanguages.Count).ThenBy(c => c.Name);
+        //    return (collection);
+        //}
 
     }
 }

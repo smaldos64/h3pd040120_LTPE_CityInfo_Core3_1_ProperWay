@@ -4,6 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DefineConstants>TRACE;ENABLED_FOR_LAZY_LOADING_USAGE</DefineConstants>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="Context\" />
     <Folder Include="Models\" />

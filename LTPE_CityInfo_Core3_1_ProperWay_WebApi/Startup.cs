@@ -16,6 +16,9 @@ using LTPE_CityInfo_Core3_1_ProperWay_Data.Context;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
 namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi
 {
     public class Startup
@@ -43,6 +46,17 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
+            // LTPE
+            // Koden herunder bør ikke være nødvendig i et ordentligt
+            // struktureret projekt. Den er medtaget her for at give 
+            // mulighed for at vise, hvor meget cyklisk data man kan få sendt
+            // tilbage til en klient, hvis man bare tager alt data med !!!
+            services.AddMvc().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.ReferenceLoopHandling =
+                ReferenceLoopHandling.Ignore;
+                options.SerializerSettings.Formatting = Formatting.Indented;
+            });
             services.AddControllers();
         }
 

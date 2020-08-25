@@ -21,7 +21,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
 
         public virtual IQueryable<T> FindAll()
         {
+#if (ENABLED_FOR_LAZY_LOADING_USAGE)
+            return this.RepositoryContext.Set<T>();
+#else
             return this.RepositoryContext.Set<T>().AsNoTracking();
+#endif
         }
 
         public virtual T FindOne(int id)
@@ -32,7 +36,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
             //ParameterExpression s = Expression.Parameter(typeof(T));
+#if (ENABLED_FOR_LAZY_LOADING_USAGE)
+            return this.RepositoryContext.Set<T>().Where(expression);
+#else
             return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();
+#endif
         }
 
         //public virtual List<T> FindByCondition(Expression<Func<T, bool>> expression)
@@ -63,6 +71,16 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         {
             int NumberOfObjectsSaved = -1;
             NumberOfObjectsSaved = this.RepositoryContext.SaveChanges();
+        }
+
+        public virtual void EnableLazyLoading()
+        {
+            this.RepositoryContext.ChangeTracker.LazyLoadingEnabled = true;
+        }
+
+        public virtual void DisableLazyLoading()
+        {
+            this.RepositoryContext.ChangeTracker.LazyLoadingEnabled = false;
         }
     }
 }
