@@ -49,24 +49,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         {
             this._repoWrapper = repoWrapper;
             this._mapper = mapper;
-
-            //this._cityControllerParameters_Object = new CityControllerParameters();
         }
 
-        // GET: api/City
-        //[HttpGet]
-        //public IEnumerable<string> Get()
-        //{
-        //    return new string[] { "value1", "value2" };
-        //}
-
-        // GET: api/City/5
-        //[HttpGet("{id}", Name = "Get")]
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
+        
         [HttpGet]
         public IActionResult GetCities(bool includeRelations = false)
         {
@@ -75,6 +60,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 if (false == includeRelations)
                 {
                     _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+
                     var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
 
                     if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
@@ -88,9 +74,10 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                         return Ok(CityDtos);
                     }
                 }
-                else
+                else  // true == includeRelations 
                 {
                     _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+
                     var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
                     IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
@@ -107,13 +94,23 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             else  // !_use_Lazy_Loading_On_City_Controller
             {
                 _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+
                 if (false == includeRelations)
                 {
                     var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
-                    IEnumerable<CityWithoutPointsOfInterestDto> CityDtos = _mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
-                    return Ok(CityDtos);
+
+                    if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
+                    {
+                        var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
+                        return Ok(CityDtos);
+                    }
+                    else
+                    {
+                        var CityDtos = _mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+                        return Ok(CityDtos);
+                    }
                 }
-                else
+                else  // true == includeRelations 
                 {
                     //var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindByCondition(c => c.Id == c.Id);
                     var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
@@ -134,78 +131,105 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id, bool includeRelations = false)
         {
-#if (Use_Lazy_Loading_On_City_Controller)
-            if (false == includeRelations)
+            if (_cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller)
+            {
+                if (false == includeRelations)
+                {
+                    _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+
+                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+
+                    if (null == cityEntity)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
+                        {
+                            CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
+                            return Ok(CityDto_Object);
+                        }
+                        else
+                        {
+                            CityWithoutPointsOfInterestDto CityDto_Object = _mapper.Map<CityWithoutPointsOfInterestDto>(cityEntity);
+                            return Ok(CityDto_Object);
+                        }
+                    }
+                }
+                else  // true == includeRelations
+                {
+                    _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+
+                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+
+                    if (null == cityEntity)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
+                        if (_cityControllerParameters_Object._show_Loaded_Trash_Data)
+                        {
+                            return Ok(cityEntity);
+                        }
+                        else
+                        {
+                            return Ok(CityDto_Object);
+                        }
+                    }
+                }
+            }
+            else  // !_use_Lazy_Loading_On_City_Controller
             {
                 _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
-                var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
-                if (null == cityEntity)
+                if (false == includeRelations)
                 {
-                    return NotFound();
+                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
+
+                    if (null == cityEntity)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
+                        {
+                            var CityDto_Object = _mapper.Map<CityDto>(cityEntity);
+                            return Ok(CityDto_Object);
+                        }
+                        else
+                        {
+                            var CityDto_Object = _mapper.Map<CityWithoutPointsOfInterestDto>(cityEntity);
+                            return Ok(CityDto_Object);
+                        }
+                    }
                 }
-                else
+                else  // true == includeRelations 
                 {
-#if (Show_Empty_Related_Date_Fields)
-                    CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
-#else
-                    CityWithoutPointsOfInterestDto CityDto_Object = _mapper.Map<CityWithoutPointsOfInterestDto>(cityEntity);
-#endif
-                    return Ok(CityDto_Object);
+                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
+
+                    if (null == cityEntity)
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
+
+                        if (_cityControllerParameters_Object._show_Loaded_Trash_Data)
+                        {
+                            return Ok(cityEntity);
+                        }
+                        else
+                        {
+                            return Ok(CityDto_Object);
+                        }
+                    }
                 }
             }
-            else
-            {
-                _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
-                var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
-
-                if (null == cityEntity)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
-#if (Show_Loaded_Trash_Data)
-                    return Ok(cityEntities);
-#else
-                    return Ok(CityDto_Object);
-                }
-#endif
-            }
-#else
-            _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
-            if (false == includeRelations)
-            {
-                var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
-
-                if (null == cityEntity)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    CityWithoutPointsOfInterestDto CityDto_Object = _mapper.Map<CityWithoutPointsOfInterestDto>(cityEntity);
-                    return Ok(CityDto_Object);
-                }
-            }
-            else
-            {
-                var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
-
-                if (null == cityEntity)
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
-
-                    return Ok(CityDto_Object);
-                }
-
-            }
-#endif
         }
 
         // POST: api/City
@@ -218,18 +242,15 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         [HttpPost]
         [Route("[action]")]
         public IActionResult PostControllerSettingParameters(bool Use_Lazy_Loading_On_City_Controller = true,
-                                                    bool Show_Loaded_Trash_Data = false,
-                                                    bool Show_Empty_Related_Date_Fields = false,
-                                                    bool Use_AutoMapper = true)
+                                                             bool Show_Loaded_Trash_Data = false,
+                                                             bool Show_Empty_Related_Date_Fields = false,
+                                                             bool Use_AutoMapper = true)
         {
             _cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller = Use_Lazy_Loading_On_City_Controller;
             _cityControllerParameters_Object._show_Loaded_Trash_Data = Show_Loaded_Trash_Data;
             _cityControllerParameters_Object._show_Empty_Related_Date_Fields = Show_Empty_Related_Date_Fields;
             _cityControllerParameters_Object._use_AutoMapper = Use_AutoMapper;
 
-            //CityControllerParameters CityControllerParameters_Object = new CityControllerParameters();
-
-            //return Ok("Parameters set up is done !!!");
             return Ok(_cityControllerParameters_Object);
         }
 
