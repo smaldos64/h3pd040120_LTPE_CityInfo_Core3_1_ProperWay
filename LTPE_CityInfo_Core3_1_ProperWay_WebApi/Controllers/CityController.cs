@@ -287,15 +287,12 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         public List<CityDto> MapHere(List<City> Cities)
         {
             List<CityDto> CityDtos = new List<CityDto>();
-            ICollection<CityDto> CityDtosI = new List<CityDto>();
+            //ICollection<CityDto> CityDtosI = new List<CityDto>();
                         
             for (int Counter = 0; Counter < Cities.Count(); Counter++)
             {
                 CityDto CityDto_Object = new CityDto();
-                //CityDtos[Counter] = new CityDto();
-                //CityDtos[Counter].Name = Cities[Counter].Name;
-                //CityDtos[Counter].Description = Cities[Counter].Description;
-                //CityDtos[Counter].PointsOfInterest = new List<PointOfInterestDto>();
+              
                 CityDto_Object.Id = Cities[Counter].Id;
                 CityDto_Object.Name = Cities[Counter].Name;
                 CityDto_Object.Description = Cities[Counter].Description;
@@ -310,12 +307,10 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     PointOfInterestDto_Object.CityID = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).CityId;
                     PointOfInterestDto_Object.Name = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Name;
                     PointOfInterestDto_Object.Description = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Description;
-                    //CityDtos[Counter].PointsOfInterest.Add(PointOfInterestDto_Object);
-                    
+                                       
                     CityDto_Object.PointsOfInterest.Add(PointOfInterestDto_Object);
                 }
 
-                //CityDtos[Counter].CityLanguages = new List<LanguageDto>();
                 CityDto_Object.CityLanguages = new List<LanguageDto>();
                 for (int CityLanguageCounter = 0;
                     CityLanguageCounter < Cities[Counter].CityLanguages.Count();
@@ -331,11 +326,10 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             }
 
             CityDto CityDto_Object_Final = new CityDto();
+            CityDto_Object_Final.Id = 0;
             CityDto_Object_Final.Name = "Egen Konvertering !!!";
             CityDto_Object_Final.Description = "Det sidste objekt her er lavet for at illustrere det arbejde, som AutoMapper gør for os !!!";
-            //CityDto_Object_Final.PointsOfInterest = null;
-            //CityDto_Object_Final.CityLanguages = null;
-
+            
             CityDtos.Add(CityDto_Object_Final);
 
             return (CityDtos);
