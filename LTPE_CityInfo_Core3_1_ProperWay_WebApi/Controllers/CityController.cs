@@ -13,13 +13,21 @@ using AutoMapper;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
 
 namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 {
     public class CityControllerParameters
     {
+        // De 4 parametre herunder bestemmer hvordan output data fra controlleren her
+        // præsenteres og behandles for klienten. 
+        // Parameterne er medtaget først og fremmest af uddennelsesmæssige
+        // formål, således at brugerne af controlleren her, kan se
+        // hvordan man kan returnere (relationelle) data på forskellige måder fra en 
+        // controller tilbage til en klient.
+
         public bool _use_Lazy_Loading_On_City_Controller = true;
-        public bool _show_Loaded_Trash_Data = false;
+        public bool _show_Cyclic_Data = false;
         public bool _show_Empty_Related_Date_Fields = false;
         public bool _use_AutoMapper = true;
     }
@@ -35,7 +43,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         // hvordan man kan returnere (relationelle) data på forskellige måder fra en 
         // controller tilbage til en klient.
         //private bool _use_Lazy_Loading_On_City_Controller = true;
-        //private bool _show_Loaded_Trash_Data = false;
+        //private bool _show_Cyclic_Data = false;
         //private bool _show_Empty_Related_Date_Fields = false;
         //private bool _use_AutoMapper = true;
 
@@ -79,15 +87,25 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
 
                     var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
-                    IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
-                    if (_cityControllerParameters_Object._show_Loaded_Trash_Data)
+                    if (false == _cityControllerParameters_Object._use_AutoMapper)
                     {
-                        return Ok(cityEntities);
+                        // Her vises den kode, der i praksis udføres generisk ved brug af AutoMapper !!!
+                        IEnumerable<CityDto> CityDtos = MapHere(cityEntities.ToList());
+                        return Ok(CityDtos);
                     }
                     else
                     {
-                        return Ok(CityDtos);
+                        IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
+
+                        if (_cityControllerParameters_Object._show_Cyclic_Data)
+                        {
+                            return Ok(cityEntities);
+                        }
+                        else
+                        {
+                            return Ok(CityDtos);
+                        }
                     }
                 }
             }
@@ -116,7 +134,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
                     IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
-                    if (_cityControllerParameters_Object._show_Loaded_Trash_Data)
+                    if (_cityControllerParameters_Object._show_Cyclic_Data)
                     {
                         return Ok(cityEntities);
                     }
@@ -170,7 +188,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     else
                     {
                         CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
-                        if (_cityControllerParameters_Object._show_Loaded_Trash_Data)
+                        if (_cityControllerParameters_Object._show_Cyclic_Data)
                         {
                             return Ok(cityEntity);
                         }
@@ -219,7 +237,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     {
                         CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
 
-                        if (_cityControllerParameters_Object._show_Loaded_Trash_Data)
+                        if (_cityControllerParameters_Object._show_Cyclic_Data)
                         {
                             return Ok(cityEntity);
                         }
@@ -242,12 +260,12 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         [HttpPost]
         [Route("[action]")]
         public IActionResult PostControllerSettingParameters(bool Use_Lazy_Loading_On_City_Controller = true,
-                                                             bool Show_Loaded_Trash_Data = false,
+                                                             bool Show_Cyclic_Data = false,
                                                              bool Show_Empty_Related_Date_Fields = false,
                                                              bool Use_AutoMapper = true)
         {
             _cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller = Use_Lazy_Loading_On_City_Controller;
-            _cityControllerParameters_Object._show_Loaded_Trash_Data = Show_Loaded_Trash_Data;
+            _cityControllerParameters_Object._show_Cyclic_Data = Show_Cyclic_Data;
             _cityControllerParameters_Object._show_Empty_Related_Date_Fields = Show_Empty_Related_Date_Fields;
             _cityControllerParameters_Object._use_AutoMapper = Use_AutoMapper;
 
@@ -264,6 +282,63 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+        }
+
+        public List<CityDto> MapHere(List<City> Cities)
+        {
+            List<CityDto> CityDtos = new List<CityDto>();
+            ICollection<CityDto> CityDtosI = new List<CityDto>();
+                        
+            for (int Counter = 0; Counter < Cities.Count(); Counter++)
+            {
+                CityDto CityDto_Object = new CityDto();
+                //CityDtos[Counter] = new CityDto();
+                //CityDtos[Counter].Name = Cities[Counter].Name;
+                //CityDtos[Counter].Description = Cities[Counter].Description;
+                //CityDtos[Counter].PointsOfInterest = new List<PointOfInterestDto>();
+                CityDto_Object.Id = Cities[Counter].Id;
+                CityDto_Object.Name = Cities[Counter].Name;
+                CityDto_Object.Description = Cities[Counter].Description;
+                CityDto_Object.PointsOfInterest = new List<PointOfInterestDto>();
+
+                for (int PointOfInterestsCounter = 0;
+                    PointOfInterestsCounter < Cities[Counter].PointsOfInterest.Count();
+                    PointOfInterestsCounter++)
+                {
+                    PointOfInterestDto PointOfInterestDto_Object = new PointOfInterestDto();
+                    PointOfInterestDto_Object.Id = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Id;
+                    PointOfInterestDto_Object.CityID = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).CityId;
+                    PointOfInterestDto_Object.Name = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Name;
+                    PointOfInterestDto_Object.Description = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Description;
+                    //CityDtos[Counter].PointsOfInterest.Add(PointOfInterestDto_Object);
+                    
+                    CityDto_Object.PointsOfInterest.Add(PointOfInterestDto_Object);
+                }
+
+                //CityDtos[Counter].CityLanguages = new List<LanguageDto>();
+                CityDto_Object.CityLanguages = new List<LanguageDto>();
+                for (int CityLanguageCounter = 0;
+                    CityLanguageCounter < Cities[Counter].CityLanguages.Count();
+                    CityLanguageCounter++)
+                {
+                    LanguageDto LanguageDto_Object = new LanguageDto();
+                    LanguageDto_Object.Id = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).LanguageId;
+                    LanguageDto_Object.LanguageName = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).Language.LanguageName;
+
+                    CityDto_Object.CityLanguages.Add(LanguageDto_Object);
+                }
+                CityDtos.Add(CityDto_Object);
+            }
+
+            CityDto CityDto_Object_Final = new CityDto();
+            CityDto_Object_Final.Name = "Egen Konvertering !!!";
+            CityDto_Object_Final.Description = "Det sidste objekt her er lavet for at illustrere det arbejde, som AutoMapper gør for os !!!";
+            //CityDto_Object_Final.PointsOfInterest = null;
+            //CityDto_Object_Final.CityLanguages = null;
+
+            CityDtos.Add(CityDto_Object_Final);
+
+            return (CityDtos);
         }
     }
 }
