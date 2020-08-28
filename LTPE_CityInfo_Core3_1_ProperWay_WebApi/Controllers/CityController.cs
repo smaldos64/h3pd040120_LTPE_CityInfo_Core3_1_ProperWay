@@ -36,17 +36,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
-        // De 4 parametre bestemmer hvordan output data fra controlleren her
-        // præsenteres og behandles for klienten. 
-        // Parameterne er medtaget først og fremmest af uddennelsesmæssige
-        // formål, således at brugerne af controlleren her, kan se
-        // hvordan man kan returnere (relationelle) data på forskellige måder fra en 
-        // controller tilbage til en klient.
-        //private bool _use_Lazy_Loading_On_City_Controller = true;
-        //private bool _show_Cyclic_Data = false;
-        //private bool _show_Empty_Related_Date_Fields = false;
-        //private bool _use_AutoMapper = true;
-
         private static CityControllerParameters _cityControllerParameters_Object = new CityControllerParameters();
 
         private IRepositoryWrapper _repoWrapper;
@@ -59,9 +48,55 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             this._mapper = mapper;
         }
 
-        
         [HttpGet]
         public IActionResult GetCities(bool includeRelations = false)
+        {
+            if (false == includeRelations)
+            {
+                _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+            }
+            else  // true == includeRelations 
+            {
+                _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+            }
+
+            var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
+
+            var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
+
+            return Ok(CityDtos);
+        }
+
+        [HttpGet("{id}", Name = "Get")]
+        public IActionResult Get(int id, bool includeRelations = false)
+        {
+            if (false == includeRelations)
+            {
+                _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+            }
+            else
+            {
+                _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+            }
+
+            var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+
+            if (null == cityEntity)
+            {
+                return NotFound();
+            }
+            else
+            {
+                CityDto CityDto_Object = _mapper.Map<CityDto>(cityEntity);
+                return Ok(CityDto_Object);
+            }
+        }
+
+        // Metoden herunder er "kun" medtaget for test formål. Den bruges til at vise
+        // hvordan data fra controlleren kan formatteres på forskellig måde.
+        [HttpGet]
+        [Route("[action]")]
+        public IActionResult GetCitiesDataTest(bool includeRelations = false)
         {
             if (_cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller)
             {
@@ -146,8 +181,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             }
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id, bool includeRelations = false)
+        // Metoden herunder er "kun" medtaget for test formål. Den bruges til at vise
+        // hvordan data fra controlleren kan formatteres på forskellig måde.
+        [HttpGet("{id}")]
+        [Route("[action]")]
+        public IActionResult GetCityDataTest(int id, bool includeRelations = false)
         {
             if (_cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller)
             {
@@ -252,8 +290,24 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // POST: api/City
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult CreateCity([FromBody] City city)
         {
+            if (city.Description == city.Name)
+            {
+                ModelState.AddModelError(
+                    "Description",
+                    "The provided description should be different from the name.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _repoWrapper.CityInfoRepositoryWrapper.Create(city);
+            //_repoWrapper.CityInfoRepositoryWrapper.Save();
+
+            return Ok(city.Id);
         }
 
         // POST: api/Controller Parameters
@@ -274,14 +328,57 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // PUT: api/City/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult UpdateCity(int id,
+                                        [FromBody] CityForUpdateDto city)
         {
+            if (city.Description == city.Name)
+            {
+                ModelState.AddModelError(
+                    "Description",
+                    "The provided description should be different from the name.");
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+
+            var cityFromRepo = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+
+            if (null == cityFromRepo)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(city, cityFromRepo);
+
+            _repoWrapper.CityInfoRepositoryWrapper.Update(cityFromRepo);
+            //_repoWrapper.CityInfoRepositoryWrapper.Save();
+
+            return NoContent();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult DeleteCity(int id)
         {
+            _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+
+            var cityFromRepo = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+
+            if (null == cityFromRepo)
+            {
+                return NotFound();
+            }
+
+            _repoWrapper.CityInfoRepositoryWrapper.Delete(cityFromRepo);
+
+            //_mailService.Send("City deleted.",
+            //        $"City {cityEntity.Name} with id {cityEntity.Id} was deleted.");
+
+            return NoContent();
         }
 
         public List<CityDto> MapHere(List<City> Cities)
