@@ -183,8 +183,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // Metoden herunder er "kun" medtaget for test formål. Den bruges til at vise
         // hvordan data fra controlleren kan formatteres på forskellig måde.
-        [HttpGet("{id}")]
-        [Route("[action]")]
+        [HttpGet("GetCityDataTest/{id}")]
+        //[Route("[action]")]
         public IActionResult GetCityDataTest(int id, bool includeRelations = false)
         {
             if (_cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller)
