@@ -65,6 +65,15 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         //{
         //    return (_context.SaveChanges() >= 0);
         //}
+
+        // Kode fra nyt generisk interface herunder.
+        public IEnumerable<CityLanguage> GetAllCitiesWithLanguageID(int LanguageID)
+        {
+            var collection = base.FindByCondition(l => l.LanguageId == LanguageID);
+            collection = collection.OrderByDescending(l => l.Language.CityLanguages.Count).ThenBy(c => c.City.Name);
+            
+            return (collection.ToList());
+        }
         #endregion
     }
 }

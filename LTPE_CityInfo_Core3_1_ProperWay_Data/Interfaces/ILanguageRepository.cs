@@ -9,18 +9,22 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
 {
     public interface ILanguageRepository : IRepositoryBase<Language>
     {
-        IEnumerable<Language> GetLanguages();
+        // Filen her er kun medtaget for at åbne op for, at man kan placere "specielle"
+        // funktioner vedrørende Language funktionalitet her. Ellers kan man styre det
+        // hele med de generiske funktioner erklæret i IRepositiryBase.cs og implementeret i RepositoryBase.cs.
 
-        Language GetLanguage(int LanguageID);
+        //IEnumerable<Language> GetLanguages();
 
-        IEnumerable<City> GetCitiesFromLanguages(int LanguageID);
+        //Language GetLanguage(int LanguageID);
 
-        void AddLanguage(Language language);
+        //IEnumerable<City> GetCitiesFromLanguages(int LanguageID);
 
-        void UpdateLanguage(Language language);
+        //void AddLanguage(Language language);
 
-        void DeleteLanguage(Language language);
+        //void UpdateLanguage(Language language);
 
-        bool LanguageExists(int LanguageID);
+        //void DeleteLanguage(Language language);
+
+        //bool LanguageExists(int LanguageID);
     }
 }

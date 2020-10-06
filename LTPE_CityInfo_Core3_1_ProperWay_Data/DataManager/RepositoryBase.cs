@@ -30,7 +30,13 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
 
         public virtual T FindOne(int id)
         {
+#if (ENABLED_FOR_LAZY_LOADING_USAGE)
             return (this.RepositoryContext.Set<T>().Find(id));
+#else
+            var entity = this.RepositoryContext.Set<T>().Find(id);
+            this.RepositoryContext.Entry(entity).State = EntityState.Detached;
+            return entity;
+#endif
         }
 
         public virtual IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)

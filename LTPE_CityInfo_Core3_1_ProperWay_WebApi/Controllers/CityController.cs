@@ -38,13 +38,13 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
     {
         private static CityControllerParameters _cityControllerParameters_Object = new CityControllerParameters();
 
-        private IRepositoryWrapper _repoWrapper;
+        private IRepositoryWrapper _repositoryWrapper;
         private IMapper _mapper;
 
-        public CityController(IRepositoryWrapper repoWrapper,
+        public CityController(IRepositoryWrapper repositoryWrapper,
                               IMapper mapper)
         {
-            this._repoWrapper = repoWrapper;
+            this._repositoryWrapper = repositoryWrapper;
             this._mapper = mapper;
         }
 
@@ -53,14 +53,18 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         {
             if (false == includeRelations)
             {
-                _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
             }
             else  // true == includeRelations 
             {
-                _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+                _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
             }
 
-            var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
+            var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
+
+            // Koden der er udkommenteret herunder er med for at vise, at man kan nå alle
+            // wrappere fra alle controllers. 
+            //var LanguageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
 
             var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
@@ -72,14 +76,14 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         {
             if (false == includeRelations)
             {
-                _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
             }
             else
             {
-                _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+                _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
             }
 
-            var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+            var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityEntity)
             {
@@ -102,9 +106,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             {
                 if (false == includeRelations)
                 {
-                    _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                    _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-                    var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
+                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
 
                     if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
                     {
@@ -119,9 +123,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 }
                 else  // true == includeRelations 
                 {
-                    _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+                    _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
 
-                    var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindAll();
+                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
 
                     if (false == _cityControllerParameters_Object._use_AutoMapper)
                     {
@@ -146,11 +150,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             }
             else  // !_use_Lazy_Loading_On_City_Controller
             {
-                _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
                 if (false == includeRelations)
                 {
-                    var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
+                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
 
                     if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
                     {
@@ -165,8 +169,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 }
                 else  // true == includeRelations 
                 {
-                    //var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.FindByCondition(c => c.Id == c.Id);
-                    var cityEntities = _repoWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
+                    //var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindByCondition(c => c.Id == c.Id);
+                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
                     IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
                     if (_cityControllerParameters_Object._show_Cyclic_Data)
@@ -191,9 +195,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             {
                 if (false == includeRelations)
                 {
-                    _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                    _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
                     if (null == cityEntity)
                     {
@@ -215,9 +219,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 }
                 else  // true == includeRelations
                 {
-                    _repoWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+                    _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
 
-                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
                     if (null == cityEntity)
                     {
@@ -239,11 +243,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             }
             else  // !_use_Lazy_Loading_On_City_Controller
             {
-                _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
                 if (false == includeRelations)
                 {
-                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
+                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
 
                     if (null == cityEntity)
                     {
@@ -265,7 +269,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 }
                 else  // true == includeRelations 
                 {
-                    var cityEntity = _repoWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
+                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
 
                     if (null == cityEntity)
                     {
@@ -304,8 +308,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            _repoWrapper.CityInfoRepositoryWrapper.Create(city);
-            //_repoWrapper.CityInfoRepositoryWrapper.Save();
+            _repositoryWrapper.CityInfoRepositoryWrapper.Create(city);
+            //_repositoryWrapper.CityInfoRepositoryWrapper.Save();
 
             return Ok(city.Id);
         }
@@ -343,9 +347,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+            _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-            var cityFromRepo = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+            var cityFromRepo = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityFromRepo)
             {
@@ -354,8 +358,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
             _mapper.Map(city, cityFromRepo);
 
-            _repoWrapper.CityInfoRepositoryWrapper.Update(cityFromRepo);
-            //_repoWrapper.CityInfoRepositoryWrapper.Save();
+            _repositoryWrapper.CityInfoRepositoryWrapper.Update(cityFromRepo);
+            //_repositoryWrapper.CityInfoRepositoryWrapper.Save();
 
             return NoContent();
         }
@@ -364,16 +368,16 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteCity(int id)
         {
-            _repoWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+            _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-            var cityFromRepo = _repoWrapper.CityInfoRepositoryWrapper.FindOne(id);
+            var cityFromRepo = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityFromRepo)
             {
                 return NotFound();
             }
 
-            _repoWrapper.CityInfoRepositoryWrapper.Delete(cityFromRepo);
+            _repositoryWrapper.CityInfoRepositoryWrapper.Delete(cityFromRepo);
 
             //_mailService.Send("City deleted.",
             //        $"City {cityEntity.Name} with id {cityEntity.Id} was deleted.");

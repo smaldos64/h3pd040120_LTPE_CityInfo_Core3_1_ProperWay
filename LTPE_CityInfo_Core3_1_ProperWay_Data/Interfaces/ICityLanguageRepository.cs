@@ -18,6 +18,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
 
         void AddCityLanguage(CityLanguage cityLanguage);
 
+        public IEnumerable<CityLanguage> GetAllCitiesWithLanguageID(int LanguageID);
+
         #endregion
     }
 }
