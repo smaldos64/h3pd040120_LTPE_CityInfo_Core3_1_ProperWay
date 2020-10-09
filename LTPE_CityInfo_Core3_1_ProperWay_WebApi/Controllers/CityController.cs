@@ -332,8 +332,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // PUT: api/City/5
         [HttpPut("{id}")]
-        public IActionResult UpdateCity(int id,
-                                        [FromBody] CityForUpdateDto city)
+        public IActionResult UpdateCity(int id, [FromBody] CityForUpdateDto city)
         {
             if (city.Description == city.Name)
             {
@@ -347,7 +346,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+            //_repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
             var cityFromRepo = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 

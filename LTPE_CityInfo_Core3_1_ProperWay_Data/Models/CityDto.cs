@@ -24,5 +24,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Models
         public ICollection<LanguageDtoMinusRelations> CityLanguages { get; set; }
                = new List<LanguageDtoMinusRelations>();
 
+        //public ICollection<LanguageDto> CityLanguages { get; set; }
+        //       = new List<LanguageDto>();
     }
 }

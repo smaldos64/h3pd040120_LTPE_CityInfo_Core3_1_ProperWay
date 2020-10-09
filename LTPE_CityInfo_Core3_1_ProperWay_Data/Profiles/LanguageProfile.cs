@@ -13,14 +13,18 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
         public LanguageProfile()
         {
             // CreateMap<source, destination>()
-            CreateMap<Entities.Language, Models.LanguageDto>();
-
+            //CreateMap<Entities.Language, Models.LanguageDto>();
             CreateMap<Models.LanguageDto, Entities.Language>();
 
-            CreateMap<Models.LanguageOfCreation, Entities.Language>();
-            CreateMap<Models.LanguageOfUpdate, Entities.Language>();
-            CreateMap<Entities.Language, Models.LanguageOfUpdate>();
+            // LTPE new !!!
+            CreateMap<Entities.Language, Models.LanguageDtoMinusRelations>();
+            CreateMap<Models.LanguageDtoMinusRelations, Entities.Language>();
 
+            //CreateMap<Models.LanguageOfCreation, Entities.Language>(); // LTPE
+            //CreateMap<Models.LanguageOfUpdate, Entities.Language>(); // LTPE
+            //CreateMap<Entities.Language, Models.LanguageOfUpdate>(); // LTPE
+
+            // LTPE Below
             CreateMap<Entities.Language, Models.LanguageDto>()
                 .ForMember(
                 dest => dest.CityLanguages,

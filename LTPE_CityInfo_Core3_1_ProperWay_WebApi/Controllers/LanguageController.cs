@@ -92,6 +92,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         [HttpPut("{id}")]
         public IActionResult UpdateLanguage(int languageId, [FromBody] LanguageOfUpdate language)
+        //public IActionResult UpdateLanguage(int languageId, [FromBody] Language language)
         {
             var LanguageFromRepo = _repositoryWrapper.LanguageRepositoryWrapper.FindOne(languageId);
             if (LanguageFromRepo == null)

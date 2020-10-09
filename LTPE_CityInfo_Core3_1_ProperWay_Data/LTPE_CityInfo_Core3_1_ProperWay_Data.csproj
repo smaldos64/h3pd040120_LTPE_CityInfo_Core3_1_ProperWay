@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CityLanguageDto.cs" />
+    <Compile Remove="Models\CityLanguageWithoutRelationsDto.cs" />
+    <Compile Remove="Models\LanguageOfCreation.cs" />
+    <Compile Remove="Models\PointOfInterestForCreationDto.cs" />
     <Compile Remove="Profiles\CityLanguageProfile.cs" />
   </ItemGroup>
 
