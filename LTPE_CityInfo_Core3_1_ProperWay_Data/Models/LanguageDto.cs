@@ -13,7 +13,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Models
         //public ICollection<CityLanguageDto> CityLanguages { get; set; }
         //       = new List<CityLanguageDto>();
 
-        public ICollection<CityWithoutPointsOfInterestDto> CityLanguages { get; set; }
-              = new List<CityWithoutPointsOfInterestDto>();
+        public ICollection<CityDtoMinusRelations> CityLanguages { get; set; }
+              = new List<CityDtoMinusRelations>();
     }
 }
