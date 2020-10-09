@@ -386,55 +386,55 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         public List<CityDto> MapHere(List<City> Cities)
         {
-            //List<CityDto> CityDtos = new List<CityDto>();
-            ////ICollection<CityDto> CityDtosI = new List<CityDto>();
+            List<CityDto> CityDtos = new List<CityDto>();
+            //ICollection<CityDto> CityDtosI = new List<CityDto>();
 
-            //for (int Counter = 0; Counter < Cities.Count(); Counter++)
-            //{
-            //    CityDto CityDto_Object = new CityDto();
+            for (int Counter = 0; Counter < Cities.Count(); Counter++)
+            {
+                CityDto CityDto_Object = new CityDto();
 
-            //    CityDto_Object.Id = Cities[Counter].Id;
-            //    CityDto_Object.Name = Cities[Counter].Name;
-            //    CityDto_Object.Description = Cities[Counter].Description;
-            //    CityDto_Object.PointsOfInterest = new List<PointOfInterestDto>();
+                CityDto_Object.Id = Cities[Counter].Id;
+                CityDto_Object.Name = Cities[Counter].Name;
+                CityDto_Object.Description = Cities[Counter].Description;
+                CityDto_Object.PointsOfInterest = new List<PointOfInterestDto>();
 
-            //    for (int PointOfInterestsCounter = 0;
-            //        PointOfInterestsCounter < Cities[Counter].PointsOfInterest.Count();
-            //        PointOfInterestsCounter++)
-            //    {
-            //        PointOfInterestDto PointOfInterestDto_Object = new PointOfInterestDto();
-            //        PointOfInterestDto_Object.Id = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Id;
-            //        PointOfInterestDto_Object.CityID = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).CityId;
-            //        PointOfInterestDto_Object.Name = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Name;
-            //        PointOfInterestDto_Object.Description = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Description;
+                for (int PointOfInterestsCounter = 0;
+                    PointOfInterestsCounter < Cities[Counter].PointsOfInterest.Count();
+                    PointOfInterestsCounter++)
+                {
+                    PointOfInterestDto PointOfInterestDto_Object = new PointOfInterestDto();
+                    PointOfInterestDto_Object.Id = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Id;
+                    PointOfInterestDto_Object.CityID = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).CityId;
+                    PointOfInterestDto_Object.Name = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Name;
+                    PointOfInterestDto_Object.Description = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Description;
 
-            //        CityDto_Object.PointsOfInterest.Add(PointOfInterestDto_Object);
-            //    }
+                    CityDto_Object.PointsOfInterest.Add(PointOfInterestDto_Object);
+                }
 
-            //    CityDto_Object.CityLanguages = new List<LanguageDto>();
-            //    for (int CityLanguageCounter = 0;
-            //        CityLanguageCounter < Cities[Counter].CityLanguages.Count();
-            //        CityLanguageCounter++)
-            //    {
-            //        LanguageDto LanguageDto_Object = new LanguageDto();
-            //        LanguageDto_Object.Id = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).LanguageId;
-            //        LanguageDto_Object.LanguageName = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).Language.LanguageName;
+                CityDto_Object.CityLanguages = new List<LanguageDtoMinusRelations>();
+                for (int CityLanguageCounter = 0;
+                    CityLanguageCounter < Cities[Counter].CityLanguages.Count();
+                    CityLanguageCounter++)
+                {
+                    LanguageDtoMinusRelations LanguageDto_Object = new LanguageDtoMinusRelations();
+                    LanguageDto_Object.Id = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).LanguageId;
+                    LanguageDto_Object.LanguageName = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).Language.LanguageName;
 
-            //        CityDto_Object.CityLanguages.Add(LanguageDto_Object);
-            //    }
-            //    CityDtos.Add(CityDto_Object);
-            //}
+                    CityDto_Object.CityLanguages.Add(LanguageDto_Object);
+                }
+                CityDtos.Add(CityDto_Object);
+            }
 
-            //CityDto CityDto_Object_Final = new CityDto();
-            //CityDto_Object_Final.Id = 0;
-            //CityDto_Object_Final.Name = "Egen Konvertering !!!";
-            //CityDto_Object_Final.Description = "Det sidste objekt her er lavet for at illustrere det arbejde, som AutoMapper gør for os !!!";
+            CityDto CityDto_Object_Final = new CityDto();
+            CityDto_Object_Final.Id = 0;
+            CityDto_Object_Final.Name = "Egen Konvertering !!!";
+            CityDto_Object_Final.Description = "Det sidste objekt her er lavet for at illustrere det arbejde, som AutoMapper gør for os !!!";
 
-            //CityDtos.Add(CityDto_Object_Final);
+            CityDtos.Add(CityDto_Object_Final);
 
-            //return (CityDtos);
+            return (CityDtos);
 
-            return (null);
+            //return (null);
         }
     }
 }
