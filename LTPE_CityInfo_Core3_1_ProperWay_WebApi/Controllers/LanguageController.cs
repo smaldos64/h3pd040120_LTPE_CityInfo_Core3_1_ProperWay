@@ -30,34 +30,34 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // GET: api/Language
         [HttpGet]
-        public ActionResult<IEnumerable<CityDto>> GetLanguages(bool includeRelations = false)
+        public ActionResult<IEnumerable<LanguageDto>> GetLanguages(bool includeRelations = false)
         {
             if (false == includeRelations)
             {
-                _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                _repositoryWrapper.LanguageRepositoryWrapper.DisableLazyLoading();
             }
             else  // true == includeRelations 
             {
-                _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+                _repositoryWrapper.LanguageRepositoryWrapper.EnableLazyLoading();
             }
 
-            var cityEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
+            var languageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
 
-            var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
+            var languageDtos = _mapper.Map<IEnumerable<LanguageDto>>(languageEntities);
 
-            return Ok(CityDtos);
+            return Ok(languageDtos);
         }
 
         [HttpGet("{LanguageId}", Name = "GetLanguages")]
-        public ActionResult<CityDto> GetLanguage(int languageId, bool includeRelations = false)
+        public ActionResult<LanguageDto> GetLanguage(int languageId, bool includeRelations = false)
         {
             if (false == includeRelations)
             {
-                _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
+                _repositoryWrapper.LanguageRepositoryWrapper.DisableLazyLoading();
             }
             else  // true == includeRelations 
             {
-                _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
+                _repositoryWrapper.LanguageRepositoryWrapper.EnableLazyLoading();
             }
 
             var LanguageFromRepo = _repositoryWrapper.LanguageRepositoryWrapper.FindOne(languageId);

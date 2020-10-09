@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles;
+//using LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
 
@@ -71,8 +71,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             return Ok(CityDtos);
         }
 
-        [HttpGet("{id}", Name = "Get")]
-        public IActionResult Get(int id, bool includeRelations = false)
+        [HttpGet("{id}", Name = "GetCity")]
+        public IActionResult GetCity(int id, bool includeRelations = false)
         {
             if (false == includeRelations)
             {
@@ -387,53 +387,55 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         public List<CityDto> MapHere(List<City> Cities)
         {
-            List<CityDto> CityDtos = new List<CityDto>();
-            //ICollection<CityDto> CityDtosI = new List<CityDto>();
-                        
-            for (int Counter = 0; Counter < Cities.Count(); Counter++)
-            {
-                CityDto CityDto_Object = new CityDto();
-              
-                CityDto_Object.Id = Cities[Counter].Id;
-                CityDto_Object.Name = Cities[Counter].Name;
-                CityDto_Object.Description = Cities[Counter].Description;
-                CityDto_Object.PointsOfInterest = new List<PointOfInterestDto>();
+            //List<CityDto> CityDtos = new List<CityDto>();
+            ////ICollection<CityDto> CityDtosI = new List<CityDto>();
 
-                for (int PointOfInterestsCounter = 0;
-                    PointOfInterestsCounter < Cities[Counter].PointsOfInterest.Count();
-                    PointOfInterestsCounter++)
-                {
-                    PointOfInterestDto PointOfInterestDto_Object = new PointOfInterestDto();
-                    PointOfInterestDto_Object.Id = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Id;
-                    PointOfInterestDto_Object.CityID = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).CityId;
-                    PointOfInterestDto_Object.Name = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Name;
-                    PointOfInterestDto_Object.Description = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Description;
-                                       
-                    CityDto_Object.PointsOfInterest.Add(PointOfInterestDto_Object);
-                }
+            //for (int Counter = 0; Counter < Cities.Count(); Counter++)
+            //{
+            //    CityDto CityDto_Object = new CityDto();
 
-                CityDto_Object.CityLanguages = new List<LanguageDto>();
-                for (int CityLanguageCounter = 0;
-                    CityLanguageCounter < Cities[Counter].CityLanguages.Count();
-                    CityLanguageCounter++)
-                {
-                    LanguageDto LanguageDto_Object = new LanguageDto();
-                    LanguageDto_Object.Id = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).LanguageId;
-                    LanguageDto_Object.LanguageName = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).Language.LanguageName;
+            //    CityDto_Object.Id = Cities[Counter].Id;
+            //    CityDto_Object.Name = Cities[Counter].Name;
+            //    CityDto_Object.Description = Cities[Counter].Description;
+            //    CityDto_Object.PointsOfInterest = new List<PointOfInterestDto>();
 
-                    CityDto_Object.CityLanguages.Add(LanguageDto_Object);
-                }
-                CityDtos.Add(CityDto_Object);
-            }
+            //    for (int PointOfInterestsCounter = 0;
+            //        PointOfInterestsCounter < Cities[Counter].PointsOfInterest.Count();
+            //        PointOfInterestsCounter++)
+            //    {
+            //        PointOfInterestDto PointOfInterestDto_Object = new PointOfInterestDto();
+            //        PointOfInterestDto_Object.Id = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Id;
+            //        PointOfInterestDto_Object.CityID = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).CityId;
+            //        PointOfInterestDto_Object.Name = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Name;
+            //        PointOfInterestDto_Object.Description = Cities[Counter].PointsOfInterest.ElementAt(PointOfInterestsCounter).Description;
 
-            CityDto CityDto_Object_Final = new CityDto();
-            CityDto_Object_Final.Id = 0;
-            CityDto_Object_Final.Name = "Egen Konvertering !!!";
-            CityDto_Object_Final.Description = "Det sidste objekt her er lavet for at illustrere det arbejde, som AutoMapper gør for os !!!";
-            
-            CityDtos.Add(CityDto_Object_Final);
+            //        CityDto_Object.PointsOfInterest.Add(PointOfInterestDto_Object);
+            //    }
 
-            return (CityDtos);
+            //    CityDto_Object.CityLanguages = new List<LanguageDto>();
+            //    for (int CityLanguageCounter = 0;
+            //        CityLanguageCounter < Cities[Counter].CityLanguages.Count();
+            //        CityLanguageCounter++)
+            //    {
+            //        LanguageDto LanguageDto_Object = new LanguageDto();
+            //        LanguageDto_Object.Id = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).LanguageId;
+            //        LanguageDto_Object.LanguageName = Cities[Counter].CityLanguages.ElementAt(CityLanguageCounter).Language.LanguageName;
+
+            //        CityDto_Object.CityLanguages.Add(LanguageDto_Object);
+            //    }
+            //    CityDtos.Add(CityDto_Object);
+            //}
+
+            //CityDto CityDto_Object_Final = new CityDto();
+            //CityDto_Object_Final.Id = 0;
+            //CityDto_Object_Final.Name = "Egen Konvertering !!!";
+            //CityDto_Object_Final.Description = "Det sidste objekt her er lavet for at illustrere det arbejde, som AutoMapper gør for os !!!";
+
+            //CityDtos.Add(CityDto_Object_Final);
+
+            //return (CityDtos);
+
+            return (null);
         }
     }
 }

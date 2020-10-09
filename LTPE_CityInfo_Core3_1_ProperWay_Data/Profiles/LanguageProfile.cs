@@ -20,6 +20,18 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
             CreateMap<Models.LanguageOfCreation, Entities.Language>();
             CreateMap<Models.LanguageOfUpdate, Entities.Language>();
             CreateMap<Entities.Language, Models.LanguageOfUpdate>();
+
+            CreateMap<Entities.Language, Models.LanguageDto>()
+                .ForMember(
+                dest => dest.CityLanguages,
+                opt => opt.MapFrom(src => src.CityLanguages.Select(x => x.City)));
+            // Nødvendig med .ForMember direktivet herover, selvom navnet på vores Source 
+            // model Entities.Language (CityLanguages) er det samme som navnet på vores Destination model
+            // Models.LanguageDto (CityLanguages). Dette skal med, når vi arbejder med mange-til-mange
+            // relationer og vi "angriber" fra en af de ydre tabeller => ikke samlingstabellen !!! 
+
+            // Entities er vores Database model.
+            // Models er vores præsentations model
         }
     }
 }

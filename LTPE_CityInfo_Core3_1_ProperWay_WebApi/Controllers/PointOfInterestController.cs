@@ -19,7 +19,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         }
 
         // GET: api/PointOfInterest/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetPointOfInterest")]
         public string Get(int id)
         {
             return "value";

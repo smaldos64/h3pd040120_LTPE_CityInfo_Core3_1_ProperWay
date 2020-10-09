@@ -19,7 +19,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         }
 
         // GET: api/CityLanguage/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetCityLanguage")]
         public string Get(int id)
         {
             return "value";
