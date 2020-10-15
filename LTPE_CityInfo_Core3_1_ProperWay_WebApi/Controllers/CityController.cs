@@ -433,8 +433,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             CityDtos.Add(CityDto_Object_Final);
 
             return (CityDtos);
-
-            //return (null);
         }
     }
 }
