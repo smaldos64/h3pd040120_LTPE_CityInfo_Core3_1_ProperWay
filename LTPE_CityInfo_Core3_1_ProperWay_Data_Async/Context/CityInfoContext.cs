@@ -7,9 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
+using LTPE_CityInfo_Core3_1_ProperWay_Data_Async.Entities;
 
-namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Context
+namespace LTPE_CityInfo_Core3_1_ProperWay_Data_Async.Context
 {
     public class CityInfoContext : DbContext
     {
