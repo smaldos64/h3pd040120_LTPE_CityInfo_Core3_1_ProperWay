@@ -22,54 +22,46 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data_Async.DataManager
         #endregion
 
         #region From_CityLanguage
-        public IEnumerable<CityLanguage> GetAllCitiesLanguages()
+        public async Task<IEnumerable<CityLanguage>> GetAllCitiesLanguages()
         {
-            var collection = _context.CityLanguages.
+            var collection = await base.RepositoryContext.CityLanguages.
                 Include(c => c.City).
-                Include(l => l.Language)
-                as IQueryable<CityLanguage>;
+                Include(l => l.Language).ToListAsync();
 
-            collection = collection.OrderByDescending(c => c.City.CityLanguages.Count);
+            var collection1 = collection.OrderByDescending(c => c.City.CityLanguages.Count);
             
-            return collection.ToList();
+            return collection1;
         }
 
-        public IEnumerable<CityLanguage> GetAllCitiesFromLanguageID(int LanguageID)
+        public async Task<IEnumerable<CityLanguage>> GetAllCitiesFromLanguageID(int LanguageID)
         {
-            var collection = _context.CityLanguages.Where(l => l.LanguageId == LanguageID)
-                as IQueryable<CityLanguage>;
+            var collection = await _context.CityLanguages.Where(l => l.LanguageId == LanguageID).ToListAsync();
+               
+            var collection1 = collection.OrderByDescending(c => c.City.CityLanguages.Count);
 
-            collection = collection.OrderByDescending(c => c.City.CityLanguages.Count);
-
-            return collection.ToList();
+            return collection1;
         }
 
-        public IEnumerable<CityLanguage> GetAllLanguagesFromCityID(int CityID)
+        public async Task<IEnumerable<CityLanguage>> GetAllLanguagesFromCityID(int CityID)
         {
-            var collection = _context.CityLanguages.Where(c => c.CityId == CityID).
+            var collection = await _context.CityLanguages.Where(c => c.CityId == CityID).
                 Include(c => c.City).
-                Include(l => l.Language)
-                as IQueryable<CityLanguage>;
+                Include(l => l.Language).ToListAsync();
+                
+            var collection1 = collection.OrderByDescending(l => l.Language.CityLanguages.Count);
 
-            collection = collection.OrderByDescending(l => l.Language.CityLanguages.Count);
-
-            return collection.ToList();
+            return collection1;
         }
 
-        public void AddCityLanguage(CityLanguage cityLanguage)
+        public async Task AddCityLanguage(CityLanguage cityLanguage)
         {
-            _context.CityLanguages.Add(cityLanguage);
+            await _context.CityLanguages.AddAsync(cityLanguage);
         }
-
-        //public bool Save()
-        //{
-        //    return (_context.SaveChanges() >= 0);
-        //}
 
         // Kode fra nyt generisk interface herunder.
-        public IEnumerable<CityLanguage> GetAllCitiesWithLanguageID(int LanguageID)
+        public async Task<IEnumerable<CityLanguage>> GetAllCitiesWithLanguageID(int LanguageID)
         {
-            var collection = base.FindByCondition(l => l.LanguageId == LanguageID);
+            var collection = await base.FindByCondition(l => l.LanguageId == LanguageID);
             collection = collection.OrderByDescending(l => l.Language.CityLanguages.Count).ThenBy(c => c.City.Name);
             
             return (collection.ToList());

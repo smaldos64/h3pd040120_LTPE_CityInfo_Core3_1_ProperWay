@@ -1,8 +1,4 @@
-﻿//#define Use_Lazy_Loading_On_City_Controller
-//#define Show_Loaded_Trash_Data
-//#define Show_Empty_Related_Date_Fields
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,11 +6,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
+using LTPE_CityInfo_Core3_1_ProperWay_Data_Async.Interfaces;
+using LTPE_CityInfo_Core3_1_ProperWay_Data_Async.Models;
+using LTPE_CityInfo_Core3_1_ProperWay_Data_Async.Entities;
 
-namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
+namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async.Controllers
 {
     public class CityControllerParameters
     {
@@ -48,7 +44,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCities(bool includeRelations = false)
+        public async Task<IActionResult> GetCities(bool includeRelations = false)
         {
             if (false == includeRelations)
             {
@@ -59,7 +55,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
             }
 
-            var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
+            var cityEntities = await _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
 
             // Koden der er udkommenteret herunder er med for at vise, at man kan nå alle
             // wrappere fra alle controllers. 
@@ -71,7 +67,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         }
 
         [HttpGet("{id}", Name = "GetCity")]
-        public IActionResult GetCity(int id, bool includeRelations = false)
+        public async Task<IActionResult> GetCity(int id, bool includeRelations = false)
         {
             if (false == includeRelations)
             {
@@ -82,7 +78,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
             }
 
-            var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
+            var cityEntity = await _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityEntity)
             {
@@ -99,7 +95,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         // hvordan data fra controlleren kan formatteres på forskellig måde.
         [HttpGet]
         [Route("[action]")]
-        public IActionResult GetCitiesDataTest(bool includeRelations = false)
+        public async Task<IActionResult> GetCitiesDataTest(bool includeRelations = false)
         {
             if (_cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller)
             {
@@ -107,7 +103,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 {
                     _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
+                    var cityEntities = await _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
 
                     if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
                     {
@@ -124,7 +120,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 {
                     _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
 
-                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
+                    var cityEntities = await _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
 
                     if (false == _cityControllerParameters_Object._use_AutoMapper)
                     {
@@ -153,7 +149,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
                 if (false == includeRelations)
                 {
-                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
+                    var cityEntities = await _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
 
                     if (_cityControllerParameters_Object._show_Empty_Related_Date_Fields)
                     {
@@ -169,7 +165,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 else  // true == includeRelations 
                 {
                     //var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindByCondition(c => c.Id == c.Id);
-                    var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
+                    var cityEntities = await _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
                     IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
                     if (_cityControllerParameters_Object._show_Cyclic_Data)
@@ -188,7 +184,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         // hvordan data fra controlleren kan formatteres på forskellig måde.
         [HttpGet("GetCityDataTest/{id}")]
         //[Route("[action]")]
-        public IActionResult GetCityDataTest(int id, bool includeRelations = false)
+        public async Task<IActionResult> GetCityDataTest(int id, bool includeRelations = false)
         {
             if (_cityControllerParameters_Object._use_Lazy_Loading_On_City_Controller)
             {
@@ -196,7 +192,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 {
                     _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
+                    var cityEntity = await _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
                     if (null == cityEntity)
                     {
@@ -220,7 +216,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 {
                     _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
 
-                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
+                    var cityEntity = await _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
                     if (null == cityEntity)
                     {
@@ -246,7 +242,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
                 if (false == includeRelations)
                 {
-                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
+                    var cityEntity = await _repositoryWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
 
                     if (null == cityEntity)
                     {
@@ -268,7 +264,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 }
                 else  // true == includeRelations 
                 {
-                    var cityEntity = _repositoryWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
+                    var cityEntity = await _repositoryWrapper.CityInfoRepositoryWrapper.GetCity(id, includeRelations);
 
                     if (null == cityEntity)
                     {
@@ -293,7 +289,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // POST: api/City
         [HttpPost]
-        public IActionResult CreateCity([FromBody] City city)
+        public async Task<IActionResult> CreateCity([FromBody] City city)
         {
             if (city.Description == city.Name)
             {
@@ -307,7 +303,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            _repositoryWrapper.CityInfoRepositoryWrapper.Create(city);
+            await _repositoryWrapper.CityInfoRepositoryWrapper.Create(city);
             //_repositoryWrapper.CityInfoRepositoryWrapper.Save();
 
             return Ok(city.Id);
@@ -331,7 +327,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // PUT: api/City/5
         [HttpPut("{id}")]
-        public IActionResult UpdateCity(int id, [FromBody] CityForUpdateDto city)
+        public async Task<IActionResult> UpdateCity(int id, [FromBody] CityForUpdateDto city)
         {
             if (city.Description == city.Name)
             {
@@ -345,9 +341,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            //_repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
-
-            var cityFromRepo = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
+            var cityFromRepo = await _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityFromRepo)
             {
@@ -356,7 +350,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
             _mapper.Map(city, cityFromRepo);
 
-            _repositoryWrapper.CityInfoRepositoryWrapper.Update(cityFromRepo);
+            await _repositoryWrapper.CityInfoRepositoryWrapper.Update(cityFromRepo);
             //_repositoryWrapper.CityInfoRepositoryWrapper.Save();
 
             return NoContent();
@@ -364,21 +358,18 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public IActionResult DeleteCity(int id)
+        public async Task<IActionResult> DeleteCity(int id)
         {
             _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
 
-            var cityFromRepo = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
+            var cityFromRepo = await _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityFromRepo)
             {
                 return NotFound();
             }
 
-            _repositoryWrapper.CityInfoRepositoryWrapper.Delete(cityFromRepo);
-
-            //_mailService.Send("City deleted.",
-            //        $"City {cityEntity.Name} with id {cityEntity.Id} was deleted.");
+            await _repositoryWrapper.CityInfoRepositoryWrapper.Delete(cityFromRepo);
 
             return NoContent();
         }
@@ -386,8 +377,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         public List<CityDto> MapHere(List<City> Cities)
         {
             List<CityDto> CityDtos = new List<CityDto>();
-            //ICollection<CityDto> CityDtosI = new List<CityDto>();
-
+            
             for (int Counter = 0; Counter < Cities.Count(); Counter++)
             {
                 CityDto CityDto_Object = new CityDto();

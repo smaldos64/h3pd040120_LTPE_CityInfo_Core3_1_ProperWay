@@ -10,15 +10,15 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data_Async.Interfaces
     public interface ICityLanguageRepository : IRepositoryBase<CityLanguage>
     {
         #region From_CityLanguage
-        IEnumerable<CityLanguage> GetAllCitiesLanguages();
+        Task<IEnumerable<CityLanguage>> GetAllCitiesLanguages();
 
-        IEnumerable<CityLanguage> GetAllCitiesFromLanguageID(int LanguageID);
+        Task<IEnumerable<CityLanguage>> GetAllCitiesFromLanguageID(int LanguageID);
 
-        IEnumerable<CityLanguage> GetAllLanguagesFromCityID(int CityID);
+        Task<IEnumerable<CityLanguage>> GetAllLanguagesFromCityID(int CityID);
 
-        void AddCityLanguage(CityLanguage cityLanguage);
+        Task AddCityLanguage(CityLanguage cityLanguage);
 
-        public IEnumerable<CityLanguage> GetAllCitiesWithLanguageID(int LanguageID);
+        Task<IEnumerable<CityLanguage>> GetAllCitiesWithLanguageID(int LanguageID);
 
         #endregion
     }
