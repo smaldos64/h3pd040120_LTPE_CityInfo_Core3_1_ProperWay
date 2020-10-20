@@ -31,30 +31,43 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data_Async.DataManager
             }
             else
             {
+                //var collection = await base.RepositoryContext.Cities.
+                //Include(c => c.PointsOfInterest).
+                //Include(c => c.CityLanguages).
+                //ThenInclude(l => l.Language) as IQueryable<City>;
                 var collection = await base.RepositoryContext.Cities.
                 Include(c => c.PointsOfInterest).
                 Include(c => c.CityLanguages).
-                ThenInclude(l => l.Language) as IQueryable<City>;
+                ThenInclude(l => l.Language).ToListAsync();
 
-                collection = collection.OrderByDescending(c => c.CityLanguages.Count).ThenBy(c => c.Name);
-                return (collection);
+                var collection1 = collection.OrderByDescending(c => c.CityLanguages.Count).ThenBy(c => c.Name);
+                return (collection1);
             }
         }
 
-        public City GetCity(int CityId, bool IncludeRelations = false)
+        public async Task<City> GetCity(int CityId, bool IncludeRelations = false)
         {
             if (false == IncludeRelations)
             {
                 var City_Object = base.FindOne(CityId);
-                return (City_Object);
+                return await City_Object;
             }
             else
             {
-                var City_Object = base.FindAll().Where(c => c.Id == CityId).
-                Include(c => c.PointsOfInterest).
+                //var City_Object = await base.FindAll().Where(c => c.Id == CityId).
+                //Include(c => c.PointsOfInterest).
+                //Include(c => c.CityLanguages).
+                //ThenInclude(l => l.Language).
+                //ToListAsync();
+
+                //var City_Object1 = await base.FindOne(CityId).  Include(c => c.PointsOfInterest).
+                //Include(c => c.CityLanguages).
+                //ThenInclude(l => l.Language);
+
+                var City_Object = await base.RepositoryContext.Cities.Include(c => c.PointsOfInterest).
                 Include(c => c.CityLanguages).
                 ThenInclude(l => l.Language).
-                FirstOrDefault();
+                FirstOrDefaultAsync(c => c.Id == CityId);
 
                 return (City_Object);
             }
@@ -66,9 +79,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data_Async.DataManager
             return RepositoryContext.Cities.Include(x => x.CityLanguages).ThenInclude(x => x.Language).Include(x => x.PointsOfInterest).Where(x => x.CityLanguages.Any(cl => cl.LanguageId == languageID));
         }
 #else
-        public IEnumerable<City> GetCitiesFromLanguageID(int languageID)
+        public async Task<IEnumerable<City>> GetCitiesFromLanguageID(int languageID)
         {
-            var collection = base.FindByCondition(x => x.CityLanguages.Any(cl => cl.LanguageId == languageID));
+            var collection = await base.FindByCondition(x => x.CityLanguages.Any(cl => cl.LanguageId == languageID));
 
             collection = collection.OrderByDescending(c => c.CityLanguages.Count).ThenBy(c => c.Name);
             

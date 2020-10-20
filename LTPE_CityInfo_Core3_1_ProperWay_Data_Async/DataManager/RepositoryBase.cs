@@ -70,8 +70,8 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data_Async.DataManager
         //public virtual void Delete(T entity)
         public virtual async Task Delete(T entity)
         {
-            await this.RepositoryContext.Set<T>().Remove(entity);
-            this.Save();
+            this.RepositoryContext.Set<T>().Remove(entity);
+            await this.Save();
         }
 
         //public virtual void Save()
