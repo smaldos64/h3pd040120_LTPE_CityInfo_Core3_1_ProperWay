@@ -63,7 +63,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
             // Koden der er udkommenteret herunder er med for at vise, at man kan nå alle
             // wrappere fra alle controllers. 
-            //var LanguageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
+            var LanguageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
 
             var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
@@ -126,22 +126,21 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
                     var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
 
-                    if (false == _cityControllerParameters_Object._use_AutoMapper)
+                    if (_cityControllerParameters_Object._show_Cyclic_Data)
                     {
-                        // Her vises den kode, der i praksis udføres generisk ved brug af AutoMapper !!!
-                        IEnumerable<CityDto> CityDtos = MapHere(cityEntities.ToList());
-                        return Ok(CityDtos);
+                        return Ok(cityEntities);
                     }
                     else
                     {
-                        IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
-
-                        if (_cityControllerParameters_Object._show_Cyclic_Data)
+                        if (false == _cityControllerParameters_Object._use_AutoMapper)
                         {
-                            return Ok(cityEntities);
+                            // Her vises den kode, der i praksis udføres generisk ved brug af AutoMapper !!!
+                            IEnumerable<CityDto> CityDtos = MapHere(cityEntities.ToList());
+                            return Ok(CityDtos);
                         }
                         else
                         {
+                            IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
                             return Ok(CityDtos);
                         }
                     }
@@ -168,7 +167,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 }
                 else  // true == includeRelations 
                 {
-                    //var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindByCondition(c => c.Id == c.Id);
                     var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations);
                     IEnumerable<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
