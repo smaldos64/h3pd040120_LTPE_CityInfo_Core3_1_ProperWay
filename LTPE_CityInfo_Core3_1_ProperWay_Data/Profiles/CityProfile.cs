@@ -12,7 +12,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
         {
             // CreateMap<source, destination>()
             CreateMap<Entities.City, Models.CityDtoMinusRelations>();
-            CreateMap<Entities.City, Models.CityWithoutPointsOfInterestDto>();
+            //CreateMap<Entities.City, Models.CityWithoutPointsOfInterestDto>();
+            CreateMap<Entities.City, Models.CityDtoPointsOfInterests_Country>();
+
             CreateMap<Entities.City, Models.CityDto>()
                 .ForMember(
                 dest => dest.CityLanguages,

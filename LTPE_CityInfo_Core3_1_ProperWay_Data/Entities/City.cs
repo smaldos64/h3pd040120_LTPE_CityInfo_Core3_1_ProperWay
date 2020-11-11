@@ -31,6 +31,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Entities
         // kan vi iagttage, at der må være tale om en Mange-til-Mange releation, da denne fil har 2 styk :
         // En-til-Mange relationer "pegende ind imod sig". Én En-til-Mange relation fra City.cs og én 
         // En-til-Mange relation fra Language.cs. Og fra jeres Database kurser ved I, at en 
-        // Mange-til_Mange relation kræver en samlingstabel, som samler to styk En-til-Mange relationer. 
+        // Mange-til_Mange relation kræver en samlingstabel, som samler to styk En-til-Mange relationer.
+
+        [ForeignKey("CountryID")]
+        public int CountryID { get; set; }
+
+        public virtual Country Country { get; set; }
     }
 }

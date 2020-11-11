@@ -5,13 +5,11 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LTPE_CityInfo_Core3_1_ProperWay_Data", "LTPE_CityInfo_Core3_1_ProperWay_Data\LTPE_CityInfo_Core3_1_ProperWay_Data.csproj", "{962DD572-23BB-474F-B11A-EE9214FAE8DF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LTPE_CityInfo_Core3_1_ProperWay_Services", "LTPE_CityInfo_Core3_1_ProperWay_Services\LTPE_CityInfo_Core3_1_ProperWay_Services.csproj", "{0C21031C-559E-4AAC-A442-347331EBD95B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LTPE_CityInfo_Core3_1_ProperWay_WebApi", "LTPE_CityInfo_Core3_1_ProperWay_WebApi\LTPE_CityInfo_Core3_1_ProperWay_WebApi.csproj", "{238E7925-C6F7-4DD0-BCA5-F11E42106107}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LTPE_CityInfo_Core3_1_ProperWay_Data_Async", "LTPE_CityInfo_Core3_1_ProperWay_Data_Async\LTPE_CityInfo_Core3_1_ProperWay_Data_Async.csproj", "{65573321-6581-40E0-9F34-680CB7A7F404}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LTPE_CityInfo_Core3_1_ProperWay_Data_Async", "LTPE_CityInfo_Core3_1_ProperWay_Data_Async\LTPE_CityInfo_Core3_1_ProperWay_Data_Async.csproj", "{65573321-6581-40E0-9F34-680CB7A7F404}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async", "LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async\LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async.csproj", "{B8207716-1291-49DD-A0DB-5C8EF3469595}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async", "LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async\LTPE_CityInfo_Core3_1_ProperWay_WebApi_Async.csproj", "{B8207716-1291-49DD-A0DB-5C8EF3469595}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,6 @@ Global
 		{962DD572-23BB-474F-B11A-EE9214FAE8DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{962DD572-23BB-474F-B11A-EE9214FAE8DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{962DD572-23BB-474F-B11A-EE9214FAE8DF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0C21031C-559E-4AAC-A442-347331EBD95B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C21031C-559E-4AAC-A442-347331EBD95B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C21031C-559E-4AAC-A442-347331EBD95B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C21031C-559E-4AAC-A442-347331EBD95B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{238E7925-C6F7-4DD0-BCA5-F11E42106107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{238E7925-C6F7-4DD0-BCA5-F11E42106107}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{238E7925-C6F7-4DD0-BCA5-F11E42106107}.Release|Any CPU.ActiveCfg = Release|Any CPU

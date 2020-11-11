@@ -63,7 +63,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 
             // Koden der er udkommenteret herunder er med for at vise, at man kan nå alle
             // wrappere fra alle controllers. 
-            var LanguageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
+            //var LanguageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
 
             var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
 
@@ -116,7 +116,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     }
                     else
                     {
-                        var CityDtos = _mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+                        var CityDtos = _mapper.Map<IEnumerable<CityDtoMinusRelations>>(cityEntities);
                         return Ok(CityDtos);
                     }
                 }
@@ -161,7 +161,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                     }
                     else
                     {
-                        var CityDtos = _mapper.Map<IEnumerable<CityWithoutPointsOfInterestDto>>(cityEntities);
+                        var CityDtos = _mapper.Map<IEnumerable<CityDtoMinusRelations>>(cityEntities);
                         return Ok(CityDtos);
                     }
                 }
@@ -209,7 +209,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                         }
                         else
                         {
-                            CityWithoutPointsOfInterestDto CityDto_Object = _mapper.Map<CityWithoutPointsOfInterestDto>(cityEntity);
+                            CityDtoMinusRelations CityDto_Object = _mapper.Map<CityDtoMinusRelations>(cityEntity);
                             return Ok(CityDto_Object);
                         }
                     }
@@ -259,7 +259,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                         }
                         else
                         {
-                            var CityDto_Object = _mapper.Map<CityWithoutPointsOfInterestDto>(cityEntity);
+                            var CityDto_Object = _mapper.Map<CityDtoMinusRelations>(cityEntity);
                             return Ok(CityDto_Object);
                         }
                     }
@@ -343,8 +343,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
                 return BadRequest(ModelState);
             }
 
-            //_repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
-
             var cityFromRepo = _repositoryWrapper.CityInfoRepositoryWrapper.FindOne(id);
 
             if (null == cityFromRepo)
@@ -381,7 +379,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             return NoContent();
         }
 
-        public List<CityDto> MapHere(List<City> Cities)
+        private List<CityDto> MapHere(List<City> Cities)
         {
             List<CityDto> CityDtos = new List<CityDto>();
             //ICollection<CityDto> CityDtosI = new List<CityDto>();

@@ -11,9 +11,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Models
 
         public int LanguageId { get; set; }
 
-        public CityWithoutPointsOfInterestDto City { get; set; }
+        //public CityDtoMinusRelations City { get; set; }
 
-        public LanguageDto Language { get; set; }
+        public CityDtoPointsOfInterests_Country City { get; set; }
+
+        public LanguageDtoMinusRelations Language { get; set; }
 
         //public string City { get; set; }
 

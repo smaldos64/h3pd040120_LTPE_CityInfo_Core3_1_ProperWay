@@ -26,6 +26,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         {
             var collection = _context.CityLanguages.
                 Include(c => c.City).
+                ThenInclude(p => p.PointsOfInterest).
                 Include(l => l.Language)
                 as IQueryable<CityLanguage>;
 
@@ -60,11 +61,6 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         {
             _context.CityLanguages.Add(cityLanguage);
         }
-
-        //public bool Save()
-        //{
-        //    return (_context.SaveChanges() >= 0);
-        //}
 
         // Kode fra nyt generisk interface herunder.
         public IEnumerable<CityLanguage> GetAllCitiesWithLanguageID(int LanguageID)

@@ -26,5 +26,9 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Models
 
         //public ICollection<LanguageDto> CityLanguages { get; set; }
         //       = new List<LanguageDto>();
+
+        public int CountryID { get; set; }
+
+        public CountryDto Country { get; set; }
     }
 }
