@@ -38,12 +38,18 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
             }
 
             var cityLanguageEntitiesLazyLoading = _repositoryWrapper.CityLanguageRepositoryWrapper.FindAll();
-            var cityLanguageEntitiesEagerLoading = _repositoryWrapper.CityLanguageRepositoryWrapper.GetAllCitiesLanguages();
+
+            // Når vi bruger Eager loading, skal vi være sikre på, at Lazy Loading er disabled for kun
+            // at få det data ud, vi specificerer i vores Eager loading query !!!!
+            _repositoryWrapper.CityLanguageRepositoryWrapper.DisableLazyLoading();
+            // Disableing af Lazy loading kan selvfølgelig også lægges i metoden GetAllCitiesLanguages i vores Repository.
+            // Ved at se i filen CityLanguageRepository kan vi se, at dette er gjort i metoden GetAllCitiesLanguages.
+            var cityLanguageEntitiesEagerLoading = _repositoryWrapper.CityLanguageRepositoryWrapper.GetAllCitiesLanguages(includeRelations);
 
             var CityLanguageDtosLazyLoading = _mapper.Map<IEnumerable<CityLanguageDto>>(cityLanguageEntitiesLazyLoading);
             var CityLanguageDtosEagerLoading = _mapper.Map<IEnumerable<CityLanguageDto>>(cityLanguageEntitiesEagerLoading);
 
-            return Ok(CityLanguageDtosLazyLoading);
+            return Ok(CityLanguageDtosEagerLoading);
         }
 
         // GET: api/CityLanguage/5

@@ -22,17 +22,30 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.DataManager
         #endregion
 
         #region From_CityLanguage
-        public IEnumerable<CityLanguage> GetAllCitiesLanguages()
+        public IEnumerable<CityLanguage> GetAllCitiesLanguages(bool IncludeRelations = false)
         {
-            var collection = _context.CityLanguages.
-                Include(c => c.City).
-                ThenInclude(p => p.PointsOfInterest).
-                Include(l => l.Language)
-                as IQueryable<CityLanguage>;
+            if (false == IncludeRelations)
+            {
+                var collection = (base.FindAll());
+                collection = collection.OrderByDescending(c => c.City.CityLanguages.Count);
+                return (collection);
+            }
+            else
+            {
+                //var collection = _context.CityLanguages.
+                base.DisableLazyLoading();
+                var collection = base.FindAll().
+                    Include(c => c.City).
+                    ThenInclude(p => p.PointsOfInterest).
+                    Include(c => c.City).           
+                    ThenInclude(co => co.Country).  
+                    Include(l => l.Language)
+                    as IQueryable<CityLanguage>;
 
-            collection = collection.OrderByDescending(c => c.City.CityLanguages.Count);
-            
-            return collection.ToList();
+                collection = collection.OrderByDescending(c => c.City.CityLanguages.Count);
+
+                return collection.ToList();
+            }
         }
 
         public IEnumerable<CityLanguage> GetAllCitiesFromLanguageID(int LanguageID)

@@ -10,7 +10,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces
     public interface ICityLanguageRepository : IRepositoryBase<CityLanguage>
     {
         #region From_CityLanguage
-        IEnumerable<CityLanguage> GetAllCitiesLanguages();
+        IEnumerable<CityLanguage> GetAllCitiesLanguages(bool IncludeRelations = false);
 
         IEnumerable<CityLanguage> GetAllCitiesFromLanguageID(int LanguageID);
 
