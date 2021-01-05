@@ -1,13 +1,11 @@
-﻿//#define USE_LAZY_LOADING
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
 
 namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Context
 {

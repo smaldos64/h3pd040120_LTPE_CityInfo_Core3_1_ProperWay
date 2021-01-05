@@ -10,9 +10,20 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Models\CityWithoutPointsOfInterestDto.cs" />
-    <Compile Remove="Models\LanguageOfCreation.cs" />
-    <Compile Remove="Models\PointOfInterestForCreationDto.cs" />
+    <Compile Remove="DTO\CityDtoMinusRelations.cs" />
+    <Compile Remove="DTO\CityDtoPointsOfInterests_Country.cs" />
+    <Compile Remove="DTO\CityForUpdateDto.cs" />
+    <Compile Remove="DTO\CityLanguageWithoutRelationsDto.cs" />
+    <Compile Remove="DTO\CityWithoutPointsOfInterestDto.cs" />
+    <Compile Remove="DTO\LanguageDto.cs" />
+    <Compile Remove="DTO\LanguageDtoMinusRelations.cs" />
+    <Compile Remove="DTO\LanguageOfCreation.cs" />
+    <Compile Remove="DTO\LanguageOfManipulation.cs" />
+    <Compile Remove="DTO\LanguageOfUpdate.cs" />
+    <Compile Remove="DTO\PointOfInterestForCreationDto.cs" />
+    <Compile Remove="DTO\PointOfInterestForUpdateDto.cs" />
+    <Compile Remove="Profiles\CreateMap.cs" />
+    <Compile Remove="Profiles\LanguageProfile.cs" />
   </ItemGroup>
 
   <ItemGroup>

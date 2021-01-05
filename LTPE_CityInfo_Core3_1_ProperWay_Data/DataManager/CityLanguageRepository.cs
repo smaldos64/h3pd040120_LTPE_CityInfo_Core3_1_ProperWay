@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Context;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
 

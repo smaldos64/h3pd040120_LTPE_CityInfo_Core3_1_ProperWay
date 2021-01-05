@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.DTO;
+
 namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
 {
     public class CityLanguageProfile : Profile
@@ -11,11 +14,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
         public CityLanguageProfile()
         {
             // CreateMap<source, destination>()
-            CreateMap<Entities.CityLanguage, Models.CityLanguageDto>();
+            CreateMap<CityLanguage, CityLanguageDto>();
 
-            CreateMap<Models.CityLanguageDto, Entities.CityLanguage>();
+            CreateMap<CityLanguageDto, CityLanguage>();
 
-            CreateMap<Entities.CityLanguage, Models.CityLanguageWithoutRelationsDto>();
+            CreateMap<CityLanguage, CityLanguageWithoutRelationsDto>();
         }
     }
 }

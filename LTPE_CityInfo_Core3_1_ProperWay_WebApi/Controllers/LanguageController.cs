@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.DTO;
 
 namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 {
@@ -79,7 +78,7 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateLanguage(int languageId, [FromBody] LanguageOfUpdate language)
+        public IActionResult UpdateLanguage(int languageId, [FromBody] LanguageForUpdateDto language)
         {
             var LanguageFromRepo = _repositoryWrapper.LanguageRepositoryWrapper.FindOne(languageId);
             if (LanguageFromRepo == null)

@@ -12,7 +12,9 @@ using AutoMapper;
 
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Entities;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.DTO;
+
+using Mapster;
 
 namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
 {
@@ -35,11 +37,20 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
     [ApiController]
     public class CityController : ControllerBase
     {
+        // Som den er defineret herunder er _cityControllerParameters_Object en Aggregation. Man kan have
+        // en reference til den andet steds fra og i og med at objektet er statisk, vil hukommelsespladsen
+        // ikke miste sin værdi, selvom man destructer CityController.
+        // Hvis ikke _cityControllerParameters_Object var defineret som statisk vil der være tale om en komposition,
+        // da hukommelsespladsen så vil miste sin værdi, hvis man destructer CityController.
         private static CityControllerParameters _cityControllerParameters_Object = new CityControllerParameters();
 
         private IRepositoryWrapper _repositoryWrapper;
         private IMapper _mapper;
 
+        // Her der tale om en aggragation, da de 2 variable repositoryWrapper og mapper lever "udenfor"
+        // constructoren. 
+        // Hvis ikke de variabler repositoryWrapper og mapper var defineret som pointere, vil der være 
+        // tale om en komposition her. 
         public CityController(IRepositoryWrapper repositoryWrapper,
                               IMapper mapper)
         {
@@ -48,24 +59,59 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_WebApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCities(bool includeRelations = false)
+        public IActionResult GetCities(bool includeRelations = true, 
+                                       bool UseLazyLoading = true,
+                                       bool UseAutoMapper = true)
         {
-            if (false == includeRelations)
+            IQueryable<City> CityList = null;
+            //var cityList1 = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll(); ;
+
+            if ( (false == includeRelations) || (false == UseLazyLoading) )
             {
                 _repositoryWrapper.CityInfoRepositoryWrapper.DisableLazyLoading();
             }
-            else  // true == includeRelations 
+            else  // true == includeRelations && true == UseLazyLoading
             {
                 _repositoryWrapper.CityInfoRepositoryWrapper.EnableLazyLoading();
             }
 
-            var cityEntities = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
+            if (true == UseLazyLoading)
+            {
+                CityList = _repositoryWrapper.CityInfoRepositoryWrapper.FindAll();
+            }
+            else
+            {
+                CityList = _repositoryWrapper.CityInfoRepositoryWrapper.GetAllCities(includeRelations) as IQueryable<City>;
+            }
 
             // Koden der er udkommenteret herunder er med for at vise, at man kan nå alle
             // wrappere fra alle controllers. 
             //var LanguageEntities = _repositoryWrapper.LanguageRepositoryWrapper.FindAll();
 
-            var CityDtos = _mapper.Map<IEnumerable<CityDto>>(cityEntities);
+            List<CityDto> CityDtos;
+
+            if (true == UseAutoMapper)
+            {
+                CityDtos = _mapper.Map<IEnumerable<CityDto>>(CityList).ToList();
+            }
+            else
+            {
+                // Use Mapster
+                CityDtos = CityList.Adapt<CityDto[]>().ToList();
+            }
+
+            //List<CityDto> CityDtos = _mapper.Map<IEnumerable<CityDto>>(CityList).ToList();
+            //List<CityDto> CityDtos1 = cityList1.Adapt<CityDto[]>().ToList();
+            
+            var CityDtos2 = CityList.Adapt<CityDto[]>();
+
+            CityDto CityDto_Object_Final = new CityDto();
+            CityDto_Object_Final.Id = 0;
+            //CityDto_Object_Final.Name = "Load Metode";
+            CityDto_Object_Final.Name = (true == UseAutoMapper ? "AutoMapper" : "Mapster");
+            CityDto_Object_Final.Description = (true == UseLazyLoading ? "Lazy Loading" : "Eager Loading");
+
+            CityDtos.Add(CityDto_Object_Final);
 
             return Ok(CityDtos);
         }

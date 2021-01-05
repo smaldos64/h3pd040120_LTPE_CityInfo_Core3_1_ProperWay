@@ -4,6 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.DTO;
+
+
 namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
 {
     public class CityProfile : Profile
@@ -11,10 +15,10 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
         public CityProfile()
         {
             // CreateMap<source, destination>()
-            CreateMap<Entities.City, Models.CityDtoMinusRelations>();
-            CreateMap<Entities.City, Models.CityDtoPointsOfInterests_Country>();
+            CreateMap<City, CityDtoMinusRelations>();
+            CreateMap<City, CityDtoPointsOfInterests_Country>();
 
-            CreateMap<Entities.City, Models.CityDto>()
+            CreateMap<City, CityDto>()
                 .ForMember(
                 dest => dest.CityLanguages,
                 opt => opt.MapFrom(src => src.CityLanguages.Select(x => x.Language)));
@@ -23,11 +27,11 @@ namespace LTPE_CityInfo_Core3_1_ProperWay_Data.Profiles
             // Models.CityDto (CityLanguages). Dette skal med, når vi arbejder med mange-til-mange
             // relationer og vi "angriber" fra en af de ydre tabeller => ikke samlingstabellen !!! 
             
-            // Entities er vores Database model.
-            // Models er vores præsentations model
-
-            CreateMap<Models.CityForUpdateDto, Entities.City>()
+            CreateMap<CityForUpdateDto, City>()
                 .ReverseMap();
+
+            // Models er vores Database model.
+            // DTO er vores præsentations model
         }
     }
 }

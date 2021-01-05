@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using LTPE_CityInfo_Core3_1_ProperWay_Data.Interfaces;
-using LTPE_CityInfo_Core3_1_ProperWay_Data.Models;
+using LTPE_CityInfo_Core3_1_ProperWay_Data.DTO;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
